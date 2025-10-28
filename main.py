@@ -63,7 +63,8 @@ def userFacing(configuration: dict):
 	# Check whether the inputted program mode is valid
 	validProgramModes: set = {
 		'login',
-		'reset'
+		'reset',
+		'email'
 	}
 	if configuration['programMode'].lower() not in validProgramModes: raise ValueError("Invalid program mode inputted!")
 
@@ -72,6 +73,7 @@ def userFacing(configuration: dict):
 		'normal',
 		'backup',
 		'backup_let',
+		'email',
 		'both'
 	}
 	if configuration['codeMode'].lower() not in validCodeModes: raise ValueError('Invalid code-generation mode inputted!')

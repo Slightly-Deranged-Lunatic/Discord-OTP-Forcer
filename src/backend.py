@@ -79,6 +79,10 @@ def bootstrap_browser(
 			landing_url = 'https://discord.com/reset#token=' + configuration['resetToken']
 			driver.get(landing_url)
 			logger.debug(f'Going to landing page: {landing_url}')
+		case 'email':
+			landing_url = 'mowemowmeowmeowmeow' + configuration['something']
+			driver.get(landing_url)
+			logger.debug(f'Going to landing page: {landing_url}')
 
 	# Go to the required Discord login/landing page
 
@@ -117,7 +121,9 @@ def bootstrap_login_page(
 		case 'reset':
 			# Enter the new password
 			login_fields['password'].send_keys(configuration['newPassword'])
-	
+		case 'email':
+			pass
+
 	# Click Enter/Return to submit the user details
 	login_fields['password'].send_keys(Keys.RETURN)
 	logger.debug('Found and inputted basic login fields')
@@ -140,6 +146,8 @@ def bootstrap_login_page(
 					driver.find_element(By.XPATH, "//*[contains(text(), 'Use a backup code')]").click()					
 					driver.implicitly_wait(1)
 					login_fields['TOTP'] = driver.find_element(by=By.XPATH, value="//input[@placeholder='8-digit backup code']")
+				case 'email':
+					pass
 			driver.implicitly_wait(1)
 
 			# Auto-triggers the password reset flow
@@ -202,7 +210,7 @@ def code_entry(
 					used_backup_codes = f.readlines() 
 					if totp_code in used_backup_codes:
 						logger.warn(f'Backup code {totp_code} is invalid (Possibly previously used then invalidated)')
-						continue # Skip to next whilte loop iteration, generating a new code.
+						continue # Skip to next while loop iteration, generating a new code.
 					else:
 						f.write(f"{totp_code}\n")
 

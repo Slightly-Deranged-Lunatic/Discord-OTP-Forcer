@@ -48,6 +48,9 @@ def generate_random_code(mode: str) -> str:
 		case 'backup_let':
 			# Generates an 8-digit alphabetical 'backup' code
 			return list_to_string( list( next(generate_random_character( letters )) for _ in range(8)))
+		case 'email':
+			# Generates a 6-digit alphanumerical 'email' code
+			return list_to_string( list( next(generate_random_character( letters + digits )) for _ in range(6)))
 		case 'both':
 			# Generates a code with a random possibility of being 'normal' or 'backup' type
 			# We pack the two generate_random_code options into a list, pass as a single parameter to randchoice
