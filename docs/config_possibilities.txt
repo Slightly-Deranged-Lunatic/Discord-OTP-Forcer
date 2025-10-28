@@ -1,8 +1,8 @@
 email (any): target account's email id
 password (any): target account's current login password
 
-programMode (login | reset):
-codeMode (normal | backup | email | both):
+programMode (login | reset | email):
+codeMode (normal | backup | backup_let | email | both):
 browser (chrome | chromium) :
 
 newPassword (any): target account's new desired login password, after the password reset is done
