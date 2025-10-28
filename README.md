@@ -7,6 +7,7 @@ Instructions on how to setup and use this program can be found on the [wiki](htt
 
 # Features
 - Brute forces 6 digit TOTP codes (1 million possible codes)
+- Brute force 6 digit alphanumerical codes without lowercases (2 billion possible codes)
 - Brute forces 8 digit Backup codes (2.82 trillion possible codes)
 - Ratelimit avoidance (Cooldown between every code attempt)
 - Robust easy to read log formatting

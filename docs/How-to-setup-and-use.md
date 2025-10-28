@@ -42,12 +42,14 @@ python main.py
 8. Wait for either a successful login, or a closed browser window (Failure to brute force codes)
 ---
 ### Filling out the program.yml file
-The program has two modes `reset` and `login` we'll need to set `programMode` to one of these.
+The program has three modes `reset`, `login`, and `email` we'll need to set `programMode` to one of these.
  * `programMode:"reset"` Will set the program to password reset mode.
  * `programMode:"login"` Will set the program to login mode.
+ * `programMode:"email"` Will set the program to email reset mode.
 
-After you've set the mode you'll need to chose what type of code you want the program to use, The program currently has 3 modes to choose from.
+After you've set the mode you'll need to chose what type of code you want the program to use, The program currently has 4 modes to choose from.
  * `codeMode:"normal"` Generates a 6-digit numeric 'normal' code.
+ * `codeMode:"email"` Generates a 6-digit alphanumeric 'email' code.
  * `codeMode:"backup"` Generates an 8-digit alphanumeric 'backup' code.
  * `codeMode:"both"` Generates a code with a random possibility of being 'normal' or 'backup' type.
  
