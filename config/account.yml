@@ -25,4 +25,3 @@ resetToken: ""
 # This option isn't implemented yet. Filling it out doesn't do anything (yet)
 authToken: ""
 
-test
