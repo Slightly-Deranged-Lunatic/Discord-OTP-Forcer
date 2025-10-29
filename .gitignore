@@ -1,6 +1,8 @@
 # User-handled files
 .env
-
+user/
+config/
+__pycache__/
 
 # VSCode-generated files
 *.pyc
