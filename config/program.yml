@@ -11,3 +11,5 @@ codeMode: ""
 
 #possible options: "chrome", "chromium". maybe gecko in the future?
 browser: ""
+
+test
