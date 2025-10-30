@@ -37,8 +37,8 @@ def bootstrap_browser(
 	options.add_argument("--lang=en-US") # Force the browser window into English so we can find the code XPATH
 
 	# If you want to run the program without the browser opening then remove the # from the options below 
-	#options.add_argument('--headless')
-	#options.add_argument('--log-level=1')
+	options.add_argument('--headless')
+	options.add_argument('--log-level=1')
 
 	# spit out a webDriver depending on the user's configured browser choice.
 	match configuration['browser']:
@@ -80,7 +80,7 @@ def bootstrap_browser(
 			driver.get(landing_url)
 			logger.debug(f'Going to landing page: {landing_url}')
 		case 'email':
-			landing_url = 'mowemowmeowmeowmeow' + configuration['something']
+			landing_url = 'https://discord.com/login'
 			driver.get(landing_url)
 			logger.debug(f'Going to landing page: {landing_url}')
 
@@ -98,7 +98,7 @@ def bootstrap_login_page(
 	Login Bootstrap is a function that takes in two parameters:
 	1. driver: A web driver object of Chrome
 	2. configuration: A dictionary of configuration keys and values
-	The function locates the login input fields based on the `configuration` parameter's `programMode`. If `programMode` is 'login',
+	The function locates the login input fields based on the `configuration` parameter's `programMode`. If `programMode` is 'login' or 'email'
 	the email and password fields are located, and the values of the fields are filled using `configuration`. If `programMode` is 'reset',
 	only the password field is located and filled in with the `newPassword` key from `configuration`. The function then attempts to find
 	a TOTP login field, and if found, calls the `codeEntry()` function to enter the authentication code. If a `NoSuchElementException`
@@ -112,17 +112,15 @@ def bootstrap_login_page(
 	)
 
 	match configuration['programMode'].lower():
-		case 'login':
+		case 'login' | 'email':
 			login_fields['email'] = driver.find_element(by=By.NAME, value='email')
 			# Enter the email and password. 
-			#Uses jugaad syntax to get and fill in the email and password user details in the appropriate field.
+			#Uses jugaad syntax to get and fill in the email and password user details in the  appropriate field.
 			for i in login_fields:
 				login_fields[i].send_keys(configuration[i])
 		case 'reset':
 			# Enter the new password
 			login_fields['password'].send_keys(configuration['newPassword'])
-		case 'email':
-			pass
 
 	# Click Enter/Return to submit the user details
 	login_fields['password'].send_keys(Keys.RETURN)
@@ -138,7 +136,7 @@ def bootstrap_login_page(
 		try:
 			
 			match configuration['codeMode']:
-				case 'normal':
+				case 'normal' | 'email':
 					login_fields['TOTP'] = driver.find_element(by=By.XPATH, value="//input[@placeholder='6-digit authentication code']")
 
 				case 'backup':
@@ -146,8 +144,6 @@ def bootstrap_login_page(
 					driver.find_element(By.XPATH, "//*[contains(text(), 'Use a backup code')]").click()					
 					driver.implicitly_wait(1)
 					login_fields['TOTP'] = driver.find_element(by=By.XPATH, value="//input[@placeholder='8-digit backup code']")
-				case 'email':
-					pass
 			driver.implicitly_wait(1)
 
 			# Auto-triggers the password reset flow
@@ -200,9 +196,12 @@ def code_entry(
 				logger.debug(f"Program Mode: {color(configuration['programMode'].lower(), 'green')}")
 				logger.debug(f"Code Mode: {color(configuration['codeMode'].lower(), 'green')}")
 
-			# Generate a new code and enter it into the TOTP field
-			totp_code = generate_random_code(configuration['codeMode'].lower())
-
+			# Generate a new code and enter it into the TOTP field if it wasn't a user entered code
+			if configuration['programMode'] != "email":
+				totp_code = generate_random_code(configuration['codeMode'].lower())
+			else:
+				logger.info('Please enter the current 2FA code into the terminal.')
+				totp_code = input().strip()
 			# Use the 8-digit code only if it's not in the used_backup_codes.txt list
 			if len(totp_code) == 8:
 				with open('user/used_backup_codes.txt', 'a+') as f:
