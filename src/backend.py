@@ -37,8 +37,8 @@ def bootstrap_browser(
 	options.add_argument("--lang=en-US") # Force the browser window into English so we can find the code XPATH
 
 	# If you want to run the program without the browser opening then remove the # from the options below 
-	options.add_argument('--headless')
-	options.add_argument('--log-level=1')
+	#options.add_argument('--headless')
+	#options.add_argument('--log-level=1')
 
 	# spit out a webDriver depending on the user's configured browser choice.
 	match configuration['browser']:

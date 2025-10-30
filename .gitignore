@@ -1,7 +1,5 @@
 # User-handled files
 .env
-user/
-config/
 __pychace__/
 
 # VSCode-generated files
